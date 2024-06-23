@@ -1,13 +1,18 @@
 package com.example.springProject.student;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-@RequestMapping(path = "api/v1/student")
+@Controller
+@RequestMapping(path = "/students")
 public class StudentController {
 
     private final StudentService studentService;
@@ -18,8 +23,10 @@ public class StudentController {
     }
 
     @GetMapping
-    public List<Student> getStudents(){
-        return studentService.getStudents();
+    public String getAllStudents(ModelMap modelMap) {
+        List<Student> students = studentService.getStudents();
+        modelMap.addAttribute("students", students);
+        return "studentsList"; // Changed to avoid conflict
     }
 
     @GetMapping("/{id}")
@@ -29,8 +36,12 @@ public class StudentController {
     }
 
     @PostMapping
-    public void addStudent(@RequestBody Student student){
+    public ResponseEntity<?> addStudent(@Valid @RequestBody Student student, Errors errors) {
+        if (errors.hasErrors()) {
+            return ResponseEntity.badRequest().body(errors.getAllErrors());
+        }
         studentService.addStudent(student);
+        return ResponseEntity.ok().body("Student added successfully");
     }
 
     @DeleteMapping(path = "{studentId}")
@@ -41,10 +52,7 @@ public class StudentController {
     @PutMapping(path = "{studentId}")
     public void updateStudent(@PathVariable("studentId") int studentId,
                               @RequestParam(required = false) String name,
-                              @RequestParam(required = false) String email
-    ){
+                              @RequestParam(required = false) String email) {
         studentService.updateStudent(studentId, name, email);
-
     }
-
 }

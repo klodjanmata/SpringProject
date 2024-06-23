@@ -21,7 +21,7 @@ public class Subject {
     @NotNull
     @Length(min = 5, max = 50, message = "Name must be between 5 and 50")
     private String name;
-    @Null
+
     private String description;
     @Range(min = 1, max = 2, message = "Credits must be between 1, 2")
     private float credits;

@@ -3,8 +3,11 @@ package com.example.springProject.subject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import java.util.List;
 
 @Controller
 @RequestMapping(path = "/subjects")
@@ -18,8 +21,12 @@ public class SubjectController {
     }
 
     @GetMapping
-    public String getSubjects() {
-        return subjectService.getAllSubjects().toString();
+    public String getSubjects(ModelMap modelMap) {
+        List<Subject> subjects = subjectService.getAllSubjects();
+        modelMap.addAttribute("subjects", subjects);
+        return "subjects";
     }
+
+
 
 }

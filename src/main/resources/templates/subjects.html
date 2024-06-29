@@ -9,6 +9,9 @@
 <body>
     <div class="container">
         <h1 class="mt-4">Subjects List</h1>
+        <form th:action="@{/perform_logout}" method="post">
+            <button type="submit" class="btn btn-danger">Logout</button>
+        </form>
         <table class="table table-striped mt-4">
             <thead>
             <tr>

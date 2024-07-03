@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Grades List</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="/webjars/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <h1 class="mt-4">Grades List</h1>
+    <form th:action="@{/perform_logout}" method="post">
+        <button type="submit" class="btn btn-danger">Logout</button>
+    </form>
+    <table class="table table-striped mt-4">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Student</th>
+            <th>Professor</th>
+            <th>Subject</th>
+            <th>Grade</th>
+            <th>Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="grade : ${grades}">
+            <td th:text="${grade.id}"></td>
+            <td th:text="${grade.student.name}"></td>
+            <td th:text="${grade.professor.name}"></td>
+            <td th:text="${grade.subject.name}"></td>
+            <td th:text="${grade.grade}"></td>
+            <td th:text="${grade.date}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
